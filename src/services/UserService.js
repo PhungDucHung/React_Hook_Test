@@ -3,9 +3,9 @@
 import axios from './customizeAxios'; // import 1 hàm thì đặt tên gì cũng được
 // import axios from "axios";
 
-const fetchAllUser = () => {
+const fetchAllUser = (page) => {
     return (
-        axios.get("/api/users?page=1")
+        axios.get(`/api/users?page=${page}`)
     )
 };
 
