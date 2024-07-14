@@ -1,7 +1,14 @@
+import { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
 const ModalAddNew = ( props ) => {
     const { show, handleClose } = props;
+    const [ name , setName ] = useState("");
+    const [ job , setJob ] = useState("");
+
+    const handleSaveUser = () => {
+        console.log(">>> check state : " , "name = " , name , "job = " , job );
+    };
     return (
         <>
              <Modal
@@ -11,20 +18,40 @@ const ModalAddNew = ( props ) => {
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                <Modal.Title>Modal title</Modal.Title>
+                <Modal.Title>Add new user</Modal.Title>
                 </Modal.Header>
+
                 <Modal.Body>
-                I will not close if you click outside me. Do not even try to press
-                escape key.
+              <form>
+                    <div className="form-group">
+                        <label className='form-label'>Name</label>
+                        <input 
+                            type="text" 
+                            className="form-control" 
+                            value={name}
+                            onChange={(event) => setName(event.target.value)}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label >Job</label>
+                        <input 
+                            type="text"  
+                            className="form-control" 
+                            value={job}
+                            onChange={(event) => setJob(event.target.value)}
+                        />
+                    </div>
+                    </form>
                 </Modal.Body>
+
                 <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button>
-                <Button variant="primary">Understood</Button>
+                <Button variant="primary" onClick={() => handleSaveUser()} >Save</Button>
                 </Modal.Footer>
             </Modal>
-                </>
+        </>
     )
 }
 export default ModalAddNew
