@@ -23,8 +23,8 @@ useEffect(() => {
   }
 
   const handlePageClick = (event) => {
-    console.log("check event: " , event);
-     getUsers(+event.selected + 1);
+    console.log("check event: " , event);  
+       getUsers(+event.selected + 1);
   }
 
   const pageCount = () => {
