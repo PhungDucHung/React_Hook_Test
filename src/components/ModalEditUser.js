@@ -3,23 +3,11 @@ import { Modal, Button } from 'react-bootstrap';
  import { postCreateUser } from '../services/UserService';
  import {  toast } from 'react-toastify';
 
-const ModalAddNew = ( props ) => {
-    const { show, handleClose ,handleUpdateTable} = props;
+const ModalEditUser = ( props ) => {
+    const { show, handleClose } = props;
     const [ name , setName ] = useState("");
     const [ job , setJob ] = useState("");
 
-    const handleSaveUser = async () => {
-        let res = await postCreateUser(name, job);
-        if(res && res.id){
-            handleClose();
-            setName('');
-            setJob('');
-            toast.success("A User is created successfully")
-            handleUpdateTable({first_name: name, id: res.id})
-        }else{
-            toast.error("An error")
-        }
-    };
     return (
         <>
              <Modal
@@ -65,4 +53,4 @@ const ModalAddNew = ( props ) => {
         </>
     )
 }
-export default ModalAddNew
+export default ModalEditUser
