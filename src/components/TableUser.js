@@ -63,6 +63,12 @@ useEffect(() => {
     setDataUserDelete(user);
   }
 
+  const handleDeleteUserFromModal = (user) => {
+    let cloneListUsers = _.cloneDeep(listUsers);
+    cloneListUsers = cloneListUsers.filter(item => item.id !== user.id) 
+    setListUsers(cloneListUsers);
+  }
+
   console.log(">>> check props : " , dataUserEdit);
     return(
         <>
@@ -150,6 +156,7 @@ useEffect(() => {
                   show = {isShowModalDelete}
                   handleClose = {handleClose}
                   dataUserDelete = {dataUserDelete}
+                  handleDeleteUserFromModal = {handleDeleteUserFromModal}
                 />
 
         </>

@@ -11,7 +11,7 @@ const instance = axios.create({
 
 instance.interceptors.response.use(function (response) {
 
-  return response.data; // .data để dễ nhìn hơn
+  return response.data ? response.data : { statusCode: response.status  } // .data để dễ nhìn hơn
 }, function (error) {
 
   return Promise.reject(error);
