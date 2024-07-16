@@ -3,16 +3,13 @@ import { useEffect, useState } from 'react';
 import { fetchAllUser } from '../services/UserService';
 import ReactPaginate from 'react-paginate';
 import ModalAddNew from './ModalAddNew';
-import {  toast } from 'react-toastify';
 import ModalEditUser from './ModalEditUser';
-
+import _ from 'lodash';   // trỏ đến 2 địa chỉ bộ nhớ khác nhau
 
 const TableUser = (props) => { 
-
 const [listUsers , setListUsers ] = useState({});
 const [totalUsers , setTotalUsers] = useState(0);  // muốn lấy gì trong api phải tạo biến để chứa cái đó
 const [totalPages , setTotalPages] = useState(0); 
-
 const [isShowModalAddNew, setIsShowModalAddNew] = useState(false);
 const [isShowModalEdit , setIsShowModalEdit] = useState(false);
 const [dataUserEdit , setDataUserEdit] = useState([]);
@@ -24,6 +21,13 @@ const handleClose = () => {
 
 const handleUpdateTable = (user) => {
   setListUsers([user, ...listUsers]);
+}
+
+const handleEditUserFromModal = (user) =>{
+    let cloneListUsers = _.cloneDeep(listUsers);
+    let index = listUsers.findIndex(item => item.id === user.id);  // tìm chỉ số dựa theo id trong listUsers
+    cloneListUsers[index].first_name = user.first_name;
+    setListUsers(cloneListUsers);
 }
 
 useEffect(() => {
@@ -50,7 +54,6 @@ useEffect(() => {
   }
 
   console.log(">>> check props : " , dataUserEdit);
-
     return(
         <>
         <div className='my-3 add-new'>
@@ -127,6 +130,8 @@ useEffect(() => {
                   show = {isShowModalEdit}
                   dataUserEdit = {dataUserEdit}
                   handleClose = {handleClose}
+                  handleEditUserFromModal = {handleEditUserFromModal}
+
                 />
         </>
     )
