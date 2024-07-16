@@ -1,12 +1,22 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
- import { postCreateUser } from '../services/UserService';
  import {  toast } from 'react-toastify';
 
 const ModalEditUser = ( props ) => {
-    const { show, handleClose } = props;
+    const { show, handleClose , dataUserEdit } = props;
     const [ name , setName ] = useState("");
     const [ job , setJob ] = useState("");
+
+    const handleEditUser = (  ) => {
+
+    }
+
+    useEffect(() => {
+        if( show ){                         
+            setName(dataUserEdit.first_name);
+        }
+    },[dataUserEdit])
+
 
     return (
         <>
@@ -17,7 +27,7 @@ const ModalEditUser = ( props ) => {
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                <Modal.Title>Add new user</Modal.Title>
+                <Modal.Title>Edit a user</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -47,7 +57,7 @@ const ModalEditUser = ( props ) => {
                 <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={() => handleSaveUser()} >Save</Button>
+                <Button variant="primary" onClick={() => handleEditUser()} >Confirm</Button>
                 </Modal.Footer>
             </Modal>
         </>
