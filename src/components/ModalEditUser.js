@@ -31,7 +31,8 @@ const ModalEditUser = (props) => {
             setName(dataUserEdit.first_name);
             setJob(dataUserEdit.job); // Assuming dataUserEdit has a 'job' field
         }
-    }, [show, dataUserEdit]);
+    }, [ dataUserEdit]);
+    // useEffect được kích hoạt mỗi khi giá trị trong mảng phụ thuộc thay đổi. Trong trường hợp này, nó sẽ chạy lại khi show hoặc dataUserEdit thay đổi.
 
     return (
         <>
