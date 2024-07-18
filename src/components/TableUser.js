@@ -7,7 +7,7 @@ import ModalEditUser from './ModalEditUser';
 import _ from 'lodash';   // trỏ đến 2 địa chỉ bộ nhớ khác nhau
 import ModalConfirm from './ModalConfirm';
 import './TableUser.scss';
-
+import { debounce } from 'lodash';
 
 const TableUser = (props) => { 
 
@@ -22,6 +22,8 @@ const [dataUserDelete , setDataUserDelete] = useState({});
 
 const [ sortBy , setSortBy ] = useState("asc");
 const [ sortField , setSortField] = useState("id");
+
+const [keyword , setKeyword] = useState("");
 
 const handleClose = () => {
     setIsShowModalAddNew(false);
@@ -74,26 +76,48 @@ useEffect(() => {
     setListUsers(cloneListUsers);
   }
 
-  const handleSort = (sortBy, sortField) => {
-     setSortBy(sortBy);
-     setSortField(sortField);
+    const handleSort = (sortBy, sortField) => {
+      setSortBy(sortBy);
+      setSortField(sortField);
 
-     let cloneListUsers = _.cloneDeep(listUsers);
-     cloneListUsers = _.orderBy(cloneListUsers, [sortField] , [sortBy] );
-     setListUsers(cloneListUsers);
-    }
+      let cloneListUsers = _.cloneDeep(listUsers);
+      cloneListUsers = _.orderBy(cloneListUsers, [sortField] , [sortBy] ); // hàm orderBy sắp xếp
+      setListUsers(cloneListUsers);
+      }
+
+    const handleSearch = debounce((event) => {       // event.target.value là giá trị mình nhập vào
+        let term = event.target.value;
+        if (term){
+          let cloneListUsers = _.cloneDeep(listUsers);
+          cloneListUsers = cloneListUsers.filter(item => item.email.includes(term))
+          setListUsers(cloneListUsers);  
+
+        } else {
+          getUsers(1);
+        }
+    },200);
 
     return(
         <> 
         <div className='my-3 add-new'>
           <span> <b>List Users</b></span>
-          <button 
-          className='btn btn-success'
-          onClick={() => setIsShowModalAddNew(true)}
-          >
-              Add new user
-          </button>
+              <button 
+              className='btn btn-success'
+              onClick={() => setIsShowModalAddNew(true)}
+              >
+                  Add new user
+              </button>
           </div>
+          <div className='col-6 my-3'>
+              <input 
+                  className='form-control' 
+                  placeholder='Search user by email ....'
+                  // value = {keyword}
+                  onChange={(event) => handleSearch(event)}
+              >
+              </input>
+          </div>
+          
           <Table striped bordered hover>
             <thead>
               <tr>
