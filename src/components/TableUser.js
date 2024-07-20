@@ -8,7 +8,7 @@ import _ from 'lodash';   // trỏ đến 2 địa chỉ bộ nhớ khác nhau
 import ModalConfirm from './ModalConfirm';
 import './TableUser.scss';
 import { debounce } from 'lodash';
-import { CSVLink, CSVDownload } from 'react-csv';
+import { CSVLink } from 'react-csv';
 
 const TableUser = (props) => { 
 
@@ -25,6 +25,7 @@ const [ sortBy , setSortBy ] = useState("asc");
 const [ sortField , setSortField] = useState("id");
 
 const [keyword , setKeyword] = useState("");
+const [dataExport, setDataExport] = useState([]);
 
 const handleClose = () => {
     setIsShowModalAddNew(false);
@@ -105,6 +106,23 @@ useEffect(() => {
       ["Yezzi", "Min l3b", "ymin@cocococo.com"]
     ];
 
+    const getUsersExport = (event, done) => {
+      let result = [];
+      if(listUsers && listUsers.length > 0){
+          result.push(["Id" , "Email" , "Firstname" , "Lastname" ]);
+          listUsers.map((item, index) => {
+            let arr = [];
+            arr[0] = item.id;
+            arr[1] = item.email;
+            arr[2] = item.first_name;
+            arr[3] = item.last_name;
+            result.push(arr);
+          })
+          setDataExport(result);
+          done(); 
+      }
+    }
+
     return(
         <> 
         <div className='my-3 add-new'>
@@ -113,9 +131,11 @@ useEffect(() => {
             <label htmlFor="test" className=" btn btn-warning"><i className="  fa-solid fa-file-import"> Import</i> </label>                        {/* htmlfor dùng để gián tiếp vào thuộc tính khác vd button */}
             <input id="test" type='file' hidden ></input>
             <CSVLink 
-                data={csvData}
+                data={dataExport}
                 filename={"users.csv"}
                 className='btn btn-primary'
+                asyncOnClick={true}
+                onClick={(event, done) => getUsersExport(event, done)}
               >
                  <i class="fa-solid fa-download"> Export </i> 
               </CSVLink>
