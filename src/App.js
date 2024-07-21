@@ -4,18 +4,22 @@ import Header from './components/Header';
 import TableUser from './components/TableUser';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from 'react-toastify';
+import Home from './components/Home';
+import { Routes, Route ,Link} from 'react-router-dom';
 
 const App = () => {
 
     return(
         <>
             <div className='app-container'> 
-                <Header/>
-                    <Container>
-        
-                    <TableUser/>
+            <Header/>
+
+                <Container>
+                <Routes>
+                    <Route path="/" element={<Home/>} />
+                    <Route path="/users" element={<TableUser/>} />
+                </Routes>
                 </Container>
-           
             </div> 
             <ToastContainer
                 position="top-right"
